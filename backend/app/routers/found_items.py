@@ -15,7 +15,7 @@ from ..database import get_db
 from ..models.found_item import FoundItem
 from ..models.user import User
 from ..schemas.found_item import FoundItemList, FoundItemOut
-from ..services.deps import get_current_user
+from ..services.deps import get_current_admin, get_current_user
 from ..services.gemini import analyze_image
 from ..services.storage import save_image
 
@@ -105,3 +105,16 @@ def get_found_item(item_id: int, db: Session = Depends(get_db)) -> FoundItem:
     if item is None:
         raise HTTPException(status_code=404, detail="Item not found")
     return item
+
+
+@router.delete("/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_found_item(
+    item_id: int,
+    db: Session = Depends(get_db),
+    _admin: User = Depends(get_current_admin),
+) -> None:
+    item = db.query(FoundItem).filter(FoundItem.id == item_id).first()
+    if item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    db.delete(item)
+    db.commit()

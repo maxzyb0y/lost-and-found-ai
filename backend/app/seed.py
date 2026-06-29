@@ -65,6 +65,7 @@ def run() -> None:
                 username=DEMO_USER["username"],
                 email=DEMO_USER["email"],
                 password_hash=hash_password(DEMO_USER["password"]),
+                is_admin=True,
             )
             db.add(user)
             db.commit()

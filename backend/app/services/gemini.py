@@ -45,7 +45,9 @@ def analyze_image(data: bytes, mime_type: str) -> dict:
         raw = _gemini_image_json(data, mime_type)
         return _normalize_analysis(raw)
     except Exception as exc:  # noqa: BLE001 - never break upload on AI failure
-        return _stub_analysis(note=f"AI analysis unavailable ({exc.__class__.__name__})")
+        import traceback
+        traceback.print_exc()
+        return _stub_analysis(note=f"AI analysis unavailable ({exc.__class__.__name__}): {exc}")
 
 
 def extract_search_filters(query: str) -> dict:
@@ -67,34 +69,32 @@ def extract_search_filters(query: str) -> dict:
 # --------------------------------------------------------------------------- #
 # Gemini calls
 # --------------------------------------------------------------------------- #
-def _client():
-    from google import genai  # imported lazily
-
-    return genai.Client(api_key=settings.gemini_api_key)
-
-
 def _gemini_image_json(data: bytes, mime_type: str) -> dict:
+    from google import genai
     from google.genai import types
 
-    response = _client().models.generate_content(
-        model=settings.gemini_model,
-        contents=[
-            types.Part.from_bytes(data=data, mime_type=mime_type),
-            _ANALYSIS_PROMPT,
-        ],
-        config=types.GenerateContentConfig(response_mime_type="application/json"),
-    )
+    with genai.Client(api_key=settings.gemini_api_key) as client:
+        response = client.models.generate_content(
+            model=settings.gemini_model,
+            contents=[
+                types.Part.from_bytes(data=data, mime_type=mime_type),
+                _ANALYSIS_PROMPT,
+            ],
+            config=types.GenerateContentConfig(response_mime_type="application/json"),
+        )
     return _loads(response.text)
 
 
 def _gemini_text_json(prompt: str) -> dict:
+    from google import genai
     from google.genai import types
 
-    response = _client().models.generate_content(
-        model=settings.gemini_model,
-        contents=prompt,
-        config=types.GenerateContentConfig(response_mime_type="application/json"),
-    )
+    with genai.Client(api_key=settings.gemini_api_key) as client:
+        response = client.models.generate_content(
+            model=settings.gemini_model,
+            contents=prompt,
+            config=types.GenerateContentConfig(response_mime_type="application/json"),
+        )
     return _loads(response.text)
 
 

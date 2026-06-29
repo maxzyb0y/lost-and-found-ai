@@ -114,4 +114,13 @@ export const api = {
       body: JSON.stringify(body),
     }).then((r) => handle<SearchResponse>(r));
   },
+
+  deleteItem(id: number | string) {
+    return fetch(`${API_URL}/found-items/${id}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    }).then((r) => {
+      if (!r.ok) return handle<never>(r);
+    });
+  },
 };

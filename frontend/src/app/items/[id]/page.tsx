@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import AiMetadata from "@/components/AiMetadata";
+import { useAuth } from "@/context/AuthContext";
 import { api, ApiError } from "@/lib/api";
 import { formatDate } from "@/lib/format";
 import type { FoundItem } from "@/types";
@@ -13,9 +15,12 @@ export default function ItemDetailsPage({
 }: {
   params: { id: string };
 }) {
+  const { user } = useAuth();
+  const router = useRouter();
   const [item, setItem] = useState<FoundItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -40,6 +45,18 @@ export default function ItemDetailsPage({
     };
   }, [params.id]);
 
+  async function handleDelete() {
+    if (!item || !confirm("Delete this item? This cannot be undone.")) return;
+    setDeleting(true);
+    try {
+      await api.deleteItem(item.id);
+      router.push("/");
+    } catch {
+      setDeleting(false);
+      alert("Failed to delete item.");
+    }
+  }
+
   if (loading) {
     return <div className="py-16 text-center text-gray-500">Loading…</div>;
   }
@@ -57,9 +74,20 @@ export default function ItemDetailsPage({
 
   return (
     <div className="space-y-6">
-      <Link href="/" className="text-sm font-medium text-brand hover:underline">
-        ← Back to all items
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href="/" className="text-sm font-medium text-brand hover:underline">
+          ← Back to all items
+        </Link>
+        {user?.is_admin && (
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+          >
+            {deleting ? "Deleting…" : "Delete item"}
+          </button>
+        )}
+      </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
