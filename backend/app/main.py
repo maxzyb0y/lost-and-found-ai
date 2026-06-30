@@ -17,6 +17,9 @@ async def lifespan(app: FastAPI):
 
     if settings.auto_create_tables:
         Base.metadata.create_all(bind=engine)
+    if settings.seed_db:
+        from .seed import run as seed_run
+        seed_run()
     yield
 
 

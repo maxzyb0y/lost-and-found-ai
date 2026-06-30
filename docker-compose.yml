@@ -22,6 +22,7 @@ services:
       DATABASE_URL: postgresql+psycopg2://lostfound:lostfound@db:5432/lostfound
       PUBLIC_BASE_URL: http://localhost:8000
       CORS_ORIGINS: http://localhost:3000
+      SEED_DB: "true"
     depends_on:
       db:
         condition: service_healthy

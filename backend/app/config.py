@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     # --- Database ---
     database_url: str = "postgresql+psycopg2://lostfound:lostfound@localhost:5432/lostfound"
     auto_create_tables: bool = True  # set False if you manage schema via Alembic only
+    seed_db: bool = False  # set True in dev to pre-populate demo items on startup
 
     # --- Auth / JWT ---
     jwt_secret: str = "change-me-in-production"
