@@ -6,8 +6,9 @@ import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lost & Found AI",
-  description: "AI-powered platform for browsing and searching found items.",
+  title: "Only Found — Only found. Never forgotten.",
+  description:
+    "AI-powered lost & found for modern campuses. Upload found items and let AI identify them, or search in plain language to recover what you lost.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -16,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <AuthProvider>
           <Navbar />
-          <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+          <main>{children}</main>
         </AuthProvider>
       </body>
     </html>

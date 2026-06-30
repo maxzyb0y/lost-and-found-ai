@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import AiMetadata from "@/components/AiMetadata";
+import PageContainer from "@/components/PageContainer";
 import { useAuth } from "@/context/AuthContext";
 import { api, ApiError } from "@/lib/api";
 import { formatDate } from "@/lib/format";
@@ -50,7 +51,7 @@ export default function ItemDetailsPage({
     setDeleting(true);
     try {
       await api.deleteItem(item.id);
-      router.push("/");
+      router.push("/browse");
     } catch {
       setDeleting(false);
       alert("Failed to delete item.");
@@ -58,24 +59,31 @@ export default function ItemDetailsPage({
   }
 
   if (loading) {
-    return <div className="py-16 text-center text-gray-500">Loading…</div>;
+    return (
+      <PageContainer>
+        <div className="py-16 text-center text-gray-500">Loading…</div>
+      </PageContainer>
+    );
   }
 
   if (error || !item) {
     return (
-      <div className="mx-auto max-w-md space-y-4 py-12 text-center">
-        <p className="text-gray-700">{error ?? "Item not found."}</p>
-        <Link href="/" className="font-medium text-brand hover:underline">
-          ← Back to all items
-        </Link>
-      </div>
+      <PageContainer>
+        <div className="mx-auto max-w-md space-y-4 py-12 text-center">
+          <p className="text-gray-700">{error ?? "Item not found."}</p>
+          <Link href="/browse" className="font-medium text-brand hover:underline">
+            ← Back to all items
+          </Link>
+        </div>
+      </PageContainer>
     );
   }
 
   return (
+    <PageContainer>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <Link href="/" className="text-sm font-medium text-brand hover:underline">
+        <Link href="/browse" className="text-sm font-medium text-brand hover:underline">
           ← Back to all items
         </Link>
         {user?.is_admin && (
@@ -126,5 +134,6 @@ export default function ItemDetailsPage({
         </div>
       </div>
     </div>
+    </PageContainer>
   );
 }

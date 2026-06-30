@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import PageContainer from "@/components/PageContainer";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 
@@ -25,7 +26,7 @@ export default function LoginPage() {
         password,
       });
       login(res.access_token, res.user);
-      router.push("/");
+      router.push("/browse");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
@@ -34,6 +35,7 @@ export default function LoginPage() {
   };
 
   return (
+    <PageContainer>
     <div className="mx-auto max-w-sm">
       <h1 className="mb-6 text-2xl font-bold text-gray-900">Log in</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -45,7 +47,7 @@ export default function LoginPage() {
             value={usernameOrEmail}
             onChange={(e) => setUsernameOrEmail(e.target.value)}
             required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-indigo-100"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-blue-100"
           />
         </div>
         <div>
@@ -57,7 +59,7 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-indigo-100"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-blue-100"
           />
         </div>
 
@@ -83,5 +85,6 @@ export default function LoginPage() {
         </Link>
       </p>
     </div>
+    </PageContainer>
   );
 }

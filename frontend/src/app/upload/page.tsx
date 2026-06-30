@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import AiMetadata from "@/components/AiMetadata";
 import AuthGuard from "@/components/AuthGuard";
+import PageContainer from "@/components/PageContainer";
 import { api } from "@/lib/api";
 import type { FoundItem } from "@/types";
 
@@ -120,7 +121,7 @@ function UploadForm() {
             onChange={(e) => setLocation(e.target.value)}
             required
             placeholder="e.g. Library, 2nd floor"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-indigo-100"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-blue-100"
           />
         </div>
 
@@ -133,7 +134,7 @@ function UploadForm() {
             onChange={(e) => setNotes(e.target.value)}
             rows={3}
             placeholder="Anything helpful for the owner to identify it."
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-indigo-100"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-blue-100"
           />
         </div>
 
@@ -158,7 +159,9 @@ function UploadForm() {
 export default function UploadPage() {
   return (
     <AuthGuard>
-      <UploadForm />
+      <PageContainer>
+        <UploadForm />
+      </PageContainer>
     </AuthGuard>
   );
 }

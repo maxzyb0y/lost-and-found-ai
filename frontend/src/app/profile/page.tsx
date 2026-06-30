@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import AuthGuard from "@/components/AuthGuard";
 import ItemGrid from "@/components/ItemGrid";
+import PageContainer from "@/components/PageContainer";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { formatDate } from "@/lib/format";
@@ -58,7 +59,9 @@ function Profile() {
 export default function ProfilePage() {
   return (
     <AuthGuard>
-      <Profile />
+      <PageContainer>
+        <Profile />
+      </PageContainer>
     </AuthGuard>
   );
 }

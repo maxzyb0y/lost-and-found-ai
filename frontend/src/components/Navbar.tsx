@@ -19,7 +19,7 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold text-gray-900">
           <span aria-hidden>🔎</span>
-          Lost &amp; Found <span className="text-brand">AI</span>
+          Only <span className="text-brand">Found</span>
         </Link>
 
         <div className="flex items-center gap-2 text-sm">

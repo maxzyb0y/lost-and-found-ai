@@ -25,7 +25,7 @@ export default function ItemCard({ item }: { item: FoundItem }) {
             {item.object_name ?? "Unidentified item"}
           </h3>
           {item.category ? (
-            <span className="shrink-0 rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-brand">
+            <span className="shrink-0 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-brand">
               {item.category}
             </span>
           ) : null}
