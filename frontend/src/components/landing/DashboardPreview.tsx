@@ -3,12 +3,12 @@ import Reveal from "./Reveal";
 const CATEGORIES = ["All", "Electronics", "Bags", "Keys", "Bottles", "Clothing"];
 
 const MOCK_ITEMS = [
-  { emoji: "🧴", name: "Water Bottle", cat: "Bottles", loc: "Library", user: "maya" },
+  { emoji: "💧", name: "Water Bottle", cat: "Bottles", loc: "Library", user: "maya" },
   { emoji: "🎒", name: "Backpack", cat: "Bags", loc: "Cafeteria", user: "leo" },
   { emoji: "📱", name: "Smartphone", cat: "Electronics", loc: "Gym", user: "noah" },
   { emoji: "🔑", name: "Keys", cat: "Keys", loc: "Parking Lot", user: "sara" },
   { emoji: "🧥", name: "Jacket", cat: "Clothing", loc: "Bus Stop", user: "amir" },
-  { emoji: "📓", name: "Notebook", cat: "Bottles", loc: "Lecture Hall B", user: "kim" },
+  { emoji: "📓", name: "Notebook", cat: "Stationery", loc: "Lecture Hall B", user: "kim" },
 ];
 
 export default function DashboardPreview() {
@@ -31,7 +31,7 @@ export default function DashboardPreview() {
             {/* faux search bar */}
             <div className="mb-4 flex flex-col gap-2 sm:flex-row">
               <div className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-400">
-                Try: “I lost a blue water bottle near the library”
+                Try: "I lost a blue water bottle near the library"
               </div>
               <div className="rounded-lg bg-brand px-5 py-2.5 text-center text-sm font-medium text-white">
                 Search
@@ -61,7 +61,7 @@ export default function DashboardPreview() {
                   key={m.name}
                   className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
                 >
-                  <div className="flex aspect-[4/3] items-center justify-center bg-blue-50 text-5xl">
+                  <div className="flex aspect-[4/3] w-full items-center justify-center bg-gray-100 text-6xl">
                     {m.emoji}
                   </div>
                   <div className="space-y-1 p-4">

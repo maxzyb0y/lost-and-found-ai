@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <header className="border-b border-gray-200 bg-white">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 text-lg font-bold text-gray-900">
+        <Link href={user ? "/browse" : "/"} className="flex items-center gap-2 text-lg font-bold text-gray-900">
           <span aria-hidden>🔎</span>
           Only <span className="text-brand">Found</span>
         </Link>
