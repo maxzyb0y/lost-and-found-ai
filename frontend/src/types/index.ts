@@ -22,6 +22,27 @@ export interface FoundItem {
   created_at: string;
 }
 
+export interface LostPost {
+  id: number;
+  owner_id: number;
+  owner_username: string;
+  item_name: string;
+  category: string;
+  color: string;
+  location_lost: string;
+  date_lost: string;
+  description: string;
+  image_url: string | null;
+  brand: string | null;
+  features: string[];
+  created_at: string;
+}
+
+export interface LostPostList {
+  items: LostPost[];
+  total: number;
+}
+
 export interface AuthResponse {
   access_token: string;
   token_type: string;

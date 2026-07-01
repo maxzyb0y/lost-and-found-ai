@@ -15,3 +15,4 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     items = relationship("FoundItem", back_populates="uploader", cascade="all, delete-orphan")
+    lost_posts = relationship("LostPost", back_populates="owner", cascade="all, delete-orphan")

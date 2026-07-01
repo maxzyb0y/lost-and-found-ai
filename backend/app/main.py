@@ -38,10 +38,11 @@ if settings.resolved_storage_backend == "local":
     os.makedirs(settings.upload_dir, exist_ok=True)
     app.mount("/uploads", StaticFiles(directory=settings.upload_dir), name="uploads")
 
-from .routers import auth, found_items, search  # noqa: E402  (after app config)
+from .routers import auth, found_items, lost_posts, search  # noqa: E402  (after app config)
 
 app.include_router(auth.router)
 app.include_router(found_items.router)
+app.include_router(lost_posts.router)
 app.include_router(search.router)
 
 

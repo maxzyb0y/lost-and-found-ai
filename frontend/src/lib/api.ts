@@ -2,6 +2,8 @@ import {
   AuthResponse,
   FoundItem,
   FoundItemList,
+  LostPost,
+  LostPostList,
   SearchResponse,
   User,
 } from "@/types";
@@ -117,6 +119,46 @@ export const api = {
 
   deleteItem(id: number | string) {
     return fetch(`${API_URL}/found-items/${id}`, {
+      method: "DELETE",
+      headers: authHeaders(),
+    }).then((r) => {
+      if (!r.ok) return handle<never>(r);
+    });
+  },
+
+  listLostPosts(params: {
+    category?: string;
+    q?: string;
+    owner?: string;
+    limit?: number;
+    offset?: number;
+  } = {}) {
+    const qs = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && v !== "") qs.set(k, String(v));
+    });
+    const suffix = qs.toString() ? `?${qs.toString()}` : "";
+    return fetch(`${API_URL}/lost-posts${suffix}`).then((r) =>
+      handle<LostPostList>(r)
+    );
+  },
+
+  getLostPost(id: number | string) {
+    return fetch(`${API_URL}/lost-posts/${id}`).then((r) =>
+      handle<LostPost>(r)
+    );
+  },
+
+  createLostPost(formData: FormData) {
+    return fetch(`${API_URL}/lost-posts`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: formData,
+    }).then((r) => handle<LostPost>(r));
+  },
+
+  deleteLostPost(id: number | string) {
+    return fetch(`${API_URL}/lost-posts/${id}`, {
       method: "DELETE",
       headers: authHeaders(),
     }).then((r) => {

@@ -1,5 +1,6 @@
 """Import models so SQLAlchemy's metadata registers every table."""
 from .found_item import FoundItem
+from .lost_post import LostPost
 from .user import User
 
-__all__ = ["User", "FoundItem"]
+__all__ = ["User", "FoundItem", "LostPost"]
