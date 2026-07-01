@@ -8,7 +8,7 @@ from fastapi import (
     UploadFile,
     status,
 )
-from sqlalchemy import or_
+from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 
 from ..database import get_db
@@ -22,6 +22,9 @@ from ..services.storage import save_image
 router = APIRouter(prefix="/found-items", tags=["found-items"])
 
 _MAX_IMAGE_BYTES = 10 * 1024 * 1024  # 10 MB
+
+# The six canonical categories. "Other" filters everything outside this set.
+_BASE_CATEGORIES = ["Electronics", "Bags", "Keys", "Bottles", "Stationery", "Clothing"]
 
 
 @router.post("", response_model=FoundItemOut, status_code=status.HTTP_201_CREATED)
@@ -73,7 +76,16 @@ def list_found_items(
     query = db.query(FoundItem)
 
     if category:
-        query = query.filter(FoundItem.category.ilike(category))
+        if category.strip().lower() == "other":
+            known = [c.lower() for c in _BASE_CATEGORIES]
+            query = query.filter(
+                or_(
+                    FoundItem.category.is_(None),
+                    func.lower(FoundItem.category).notin_(known),
+                )
+            )
+        else:
+            query = query.filter(FoundItem.category.ilike(category))
     if uploader:
         query = query.filter(FoundItem.uploader_username.ilike(uploader))
     if q:

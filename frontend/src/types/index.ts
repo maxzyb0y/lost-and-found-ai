@@ -75,3 +75,6 @@ export const CATEGORIES = [
   "Stationery",
   "Clothing",
 ] as const;
+
+/** Catch-all filter/label for items that don't fit the fixed categories. */
+export const OTHER_CATEGORY = "Other";

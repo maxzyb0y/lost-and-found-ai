@@ -1,18 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = () => {
     logout();
     router.push("/");
   };
+
+  // On Lost Items pages the two primary buttons flip to their "lost" context.
+  const onLost = pathname?.startsWith("/lost") ?? false;
+  const primary = onLost
+    ? { href: "/lost/new", label: "Report lost item" }
+    : { href: "/upload", label: "Upload Item" };
+  const toggle = onLost
+    ? { href: "/browse", label: "Found Items" }
+    : { href: "/lost", label: "Lost Items" };
 
   return (
     <header className="border-b border-gray-200 bg-white">
@@ -23,19 +33,19 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center gap-2 text-sm">
-          <Link
-            href="/lost"
-            className="rounded-md px-3 py-1.5 font-medium text-gray-700 hover:bg-gray-100"
-          >
-            Lost Items
-          </Link>
           {loading ? null : user ? (
             <>
               <Link
-                href="/upload"
+                href={primary.href}
                 className="rounded-md bg-brand px-3 py-1.5 font-medium text-white hover:bg-brand-dark"
               >
-                Upload Item
+                {primary.label}
+              </Link>
+              <Link
+                href={toggle.href}
+                className="rounded-md px-3 py-1.5 font-medium text-gray-700 hover:bg-gray-100"
+              >
+                {toggle.label}
               </Link>
               <Link
                 href="/profile"
@@ -52,6 +62,12 @@ export default function Navbar() {
             </>
           ) : (
             <>
+              <Link
+                href={toggle.href}
+                className="rounded-md px-3 py-1.5 font-medium text-gray-700 hover:bg-gray-100"
+              >
+                {toggle.label}
+              </Link>
               <Link
                 href="/login"
                 className="rounded-md px-3 py-1.5 font-medium text-gray-700 hover:bg-gray-100"

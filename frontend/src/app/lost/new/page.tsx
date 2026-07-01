@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import AuthGuard from "@/components/AuthGuard";
 import PageContainer from "@/components/PageContainer";
 import { api } from "@/lib/api";
-import { CATEGORIES } from "@/types";
+import { CATEGORIES, OTHER_CATEGORY } from "@/types";
 
 const inputClass =
   "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-blue-100";
@@ -57,6 +58,12 @@ function LostForm() {
 
   return (
     <div className="mx-auto max-w-lg">
+      <Link
+        href="/lost"
+        className="mb-4 inline-block text-sm font-medium text-brand hover:underline"
+      >
+        ← Back to lost items
+      </Link>
       <h1 className="mb-1 text-2xl font-bold text-gray-900">Report a lost item</h1>
       <p className="mb-6 text-sm text-gray-600">
         Describe what you lost so others can help you find it.
@@ -87,7 +94,7 @@ function LostForm() {
               required
               className={inputClass}
             >
-              {CATEGORIES.map((c) => (
+              {[...CATEGORIES, OTHER_CATEGORY].map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>

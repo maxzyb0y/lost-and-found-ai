@@ -10,7 +10,7 @@ from fastapi import (
     UploadFile,
     status,
 )
-from sqlalchemy import or_
+from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 
 from ..database import get_db
@@ -23,6 +23,9 @@ from ..services.storage import save_image
 router = APIRouter(prefix="/lost-posts", tags=["lost-posts"])
 
 _MAX_IMAGE_BYTES = 10 * 1024 * 1024  # 10 MB
+
+# The six canonical categories. "Other" filters everything outside this set.
+_BASE_CATEGORIES = ["Electronics", "Bags", "Keys", "Bottles", "Stationery", "Clothing"]
 
 
 def _split_features(raw: str | None) -> list[str]:
@@ -86,7 +89,16 @@ def list_lost_posts(
     query = db.query(LostPost)
 
     if category:
-        query = query.filter(LostPost.category.ilike(category))
+        if category.strip().lower() == "other":
+            known = [c.lower() for c in _BASE_CATEGORIES]
+            query = query.filter(
+                or_(
+                    LostPost.category.is_(None),
+                    func.lower(LostPost.category).notin_(known),
+                )
+            )
+        else:
+            query = query.filter(LostPost.category.ilike(category))
     if owner:
         query = query.filter(LostPost.owner_username.ilike(owner))
     if q:

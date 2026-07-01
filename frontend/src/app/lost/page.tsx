@@ -1,12 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import CategoryChips from "@/components/CategoryChips";
 import LostItemCard from "@/components/LostItemCard";
 import PageContainer from "@/components/PageContainer";
-import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import type { LostPost } from "@/types";
 
@@ -15,7 +13,6 @@ function errorMessage(e: unknown): string {
 }
 
 export default function LostPage() {
-  const { user } = useAuth();
   const [posts, setPosts] = useState<LostPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,22 +38,12 @@ export default function LostPage() {
   return (
     <PageContainer>
       <div className="space-y-6">
-        <section className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-2">
-            <h1 className="text-2xl font-bold text-gray-900">Lost Items</h1>
-            <p className="text-gray-600">
-              Items people are looking for. Spotted one? Check the Found Items
-              catalog or reach out to the owner.
-            </p>
-          </div>
-          {user ? (
-            <Link
-              href="/lost/new"
-              className="shrink-0 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark"
-            >
-              + Report lost item
-            </Link>
-          ) : null}
+        <section className="space-y-2">
+          <h1 className="text-2xl font-bold text-gray-900">Lost Items</h1>
+          <p className="text-gray-600">
+            Items people are looking for. Spotted one? Check the Found Items
+            catalog or reach out to the owner.
+          </p>
         </section>
 
         <CategoryChips active={category} onSelect={setCategory} />

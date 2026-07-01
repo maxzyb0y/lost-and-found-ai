@@ -1,6 +1,6 @@
 "use client";
 
-import { CATEGORIES } from "@/types";
+import { CATEGORIES, OTHER_CATEGORY } from "@/types";
 
 export default function CategoryChips({
   active,
@@ -24,7 +24,7 @@ export default function CategoryChips({
       >
         All
       </button>
-      {CATEGORIES.map((cat) => (
+      {[...CATEGORIES, OTHER_CATEGORY].map((cat) => (
         <button
           key={cat}
           onClick={() => onSelect(cat)}

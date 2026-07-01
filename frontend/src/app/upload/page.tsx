@@ -85,6 +85,12 @@ function UploadForm() {
 
   return (
     <div className="mx-auto max-w-lg">
+      <Link
+        href="/browse"
+        className="mb-4 inline-block text-sm font-medium text-brand hover:underline"
+      >
+        ← Back to found items
+      </Link>
       <h1 className="mb-1 text-2xl font-bold text-gray-900">Upload a found item</h1>
       <p className="mb-6 text-sm text-gray-600">
         Add a photo and where you found it — our AI will tag the rest.
