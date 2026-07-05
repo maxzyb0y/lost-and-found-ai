@@ -16,7 +16,7 @@ export default function Hero() {
           <Reveal direction="up" delay={0.08}>
             <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-5xl">
               AI-Powered Lost &amp; Found for{" "}
-              <span className="text-brand">Modern Campuses</span>
+              <span className="text-brand">Modern Schools</span>
             </h1>
           </Reveal>
           <Reveal direction="up" delay={0.16}>
