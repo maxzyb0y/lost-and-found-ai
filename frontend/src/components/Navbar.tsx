@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -28,7 +29,14 @@ export default function Navbar() {
     <header className="border-b border-gray-200 bg-white">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href={user ? "/browse" : "/"} className="flex items-center gap-2 text-lg font-bold text-gray-900">
-          <span aria-hidden>🔎</span>
+          <Image
+            src="/logo.png"
+            alt="Only Found logo"
+            width={32}
+            height={36}
+            className="h-8 w-auto"
+            priority
+          />
           Only <span className="text-brand">Found</span>
         </Link>
 

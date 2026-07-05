@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const LINKS = [
@@ -16,7 +17,13 @@ export default function Footer() {
             href="/"
             className="flex items-center gap-2 text-lg font-bold text-gray-900"
           >
-            <span aria-hidden>🔎</span>
+            <Image
+              src="/logo.png"
+              alt="Only Found logo"
+              width={32}
+              height={36}
+              className="h-8 w-auto"
+            />
             Only <span className="text-brand">Found</span>
           </Link>
           <p className="mt-2 text-sm text-gray-500">
